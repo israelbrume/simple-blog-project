@@ -1,22 +1,23 @@
-import { Connection } from 'mysql2/promise';
 import bcrypt from 'bcrypt';
-import { Schema, ValidationResult } from '@hapi/joi';
+import User from '../models/User';
+import { Schema } from '@hapi/joi';
 
-interface User {
-  id: number;
+interface UserAttributes {
+  fullname: string;
   email: string;
   password: string;
 }
 
-const registerUser = async (connection: Connection, data: User) => {
+const registerUser = async (data: UserAttributes) => {
   try {
-    const { email, password } = data;
-    const hashedPassword = await bcrypt.hash(password, 10); // Using saltRounds = 10
+    const { fullname, email, password } = data;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    await connection.query('INSERT INTO users (email, password) VALUES (?, ?)', [
+    await User.create({
+      fullname,
       email,
-      hashedPassword,
-    ]);
+      password: hashedPassword,
+    });
 
     return 'User registered successfully';
   } catch (error: any) {
@@ -25,23 +26,22 @@ const registerUser = async (connection: Connection, data: User) => {
   }
 };
 
-const loginUser = async (connection: Connection, data: User) => {
+const loginUser = async (data: UserAttributes) => {
   try {
     const { email, password } = data;
-    const [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
-    
-    if (rows) {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
       throw new Error('User not found');
     }
 
-    const user = rows[0] as User;
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       throw new Error('Invalid password');
     }
 
-    return 'User logged in successfully';
+    return user;
   } catch (error: any) {
     console.error('Login failed:', error.message);
     throw error;

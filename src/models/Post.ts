@@ -1,15 +1,33 @@
-import { Connection } from 'mysql2/promise';
+import { Model, DataTypes, Sequelize } from 'sequelize';
+import sequelize from '../db';
 
-const createPostTable = async (connection: Connection) => {
-  await connection.query(`
-    CREATE TABLE IF NOT EXISTS posts (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      userId INT NOT NULL,
-      title VARCHAR(255) NOT NULL,
-      content TEXT NOT NULL,
-      FOREIGN KEY (userId) REFERENCES users(id)
-    )
-  `);
-};
+class Post extends Model {
+  id!: number;
+  UserId!: number;
+  title!: string;
+  content!: string;
+}
 
-export { createPostTable };
+Post.init(
+  {
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    modelName: 'Post',
+    timestamps: false,
+  }
+);
+
+export default Post;

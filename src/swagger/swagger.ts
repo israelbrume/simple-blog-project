@@ -7,9 +7,6 @@ const swaggerOptions = {
       title: 'Blog API',
       version: '1.0.0',
       description: 'API documentation for the Blog project',
-    //   contact: {
-    //     name: 'Your Name',
-    //   },
     },
     servers: [
       {
@@ -18,7 +15,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ['./routes/*.ts'], // Path to the main app file
+  apis: ['../routes/index.ts', '../routes/postRoutes.ts', '../routes/userRoutes.ts'],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);

@@ -1,21 +1,15 @@
-import { Connection } from 'mysql2/promise';
+import { Sequelize } from 'sequelize-typescript';
+import Post from '../models/Post';
 
-interface Post {
-  id: number;
-  userId: number;
+interface PostAttributes {
+  UserId: number;
   title: string;
   content: string;
 }
 
-const createPost = async (connection: Connection, data: Post) => {
+const createPost = async (data: PostAttributes) => {
   try {
-    const { userId, title, content } = data;
-
-    await connection.query('INSERT INTO posts (userId, title, content) VALUES (?, ?, ?)', [
-      userId,
-      title,
-      content,
-    ]);
+    await Post.create({...data});
 
     return 'Post created successfully';
   } catch (error: any) {
@@ -24,34 +18,29 @@ const createPost = async (connection: Connection, data: Post) => {
   }
 };
 
-const getPostsWithUserId = async (connection: Connection, userId: number) => {
+const getPostsWithUserId = async (userId: number) => {
   try {
-    const [rows] = await connection.query('SELECT * FROM posts WHERE userId = ?', [userId]);
-    return rows as Post[];
+    const posts = await Post.findAll({ where: { userId } });
+    return posts;
   } catch (error: any) {
     console.error('Error fetching posts:', error.message);
     throw error;
   }
 };
 
-const getAllPosts = async (connection: Connection) => {
+const getAllPosts = async () => {
   try {
-    const [rows] = await connection.query('SELECT * FROM posts');
-    return rows as Post[];
+    const posts = await Post.findAll();
+    return posts;
   } catch (error: any) {
     console.error('Error fetching posts:', error.message);
     throw error;
   }
 };
 
-const updatePost = async (connection: Connection, postId: number, data: Partial<Post>) => {
+const updatePost = async (postId: number, data: Partial<PostAttributes>) => {
   try {
-    const { title, content } = data;
-    await connection.query('UPDATE posts SET title = ?, content = ? WHERE id = ?', [
-      title,
-      content,
-      postId,
-    ]);
+    await Post.update(data, { where: { id: postId } });
 
     return 'Post updated successfully';
   } catch (error: any) {
@@ -60,9 +49,10 @@ const updatePost = async (connection: Connection, postId: number, data: Partial<
   }
 };
 
-const removePost = async (connection: Connection, postId: number) => {
+const removePost = async (postId: number) => {
   try {
-    await connection.query('DELETE FROM posts WHERE id = ?', [postId]);
+    await Post.destroy({ where: { id: postId } });
+
     return 'Post deleted successfully';
   } catch (error: any) {
     console.error('Post deletion failed:', error.message);

@@ -2,13 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 interface DecodedToken {
-  userId: number;
+  UserId: number;
 }
 
 declare global {
   namespace Express {
     interface Request {
-      userId?: number;
+      UserId?: number;
     }
   }
 }
@@ -22,7 +22,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
 
   try {
     const decoded = jwt.verify(token, 'your-secret-key') as DecodedToken;
-    req.userId = decoded.userId;
+    req.UserId = decoded.UserId;
     next();
   } catch (error) {
     res.status(401).json({ success: false, message: 'Invalid token' });

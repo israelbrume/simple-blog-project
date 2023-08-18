@@ -1,43 +1,16 @@
+import { Sequelize } from 'sequelize';
+
 const { DB_USER, DB_PASS, DB_NAME, DB_HOST } = process.env;
 
-// const mysql = require('mysql2/promise');
+const sequelize = new Sequelize( 'sbproject', 'admin', 'Pa$$word',{
+  host: 'sbproject.c1tio7oqkzjw.us-east-2.rds.amazonaws.com',
+  dialect: 'mysql',
+});
 
-// const dbConnection = mysql.createPool({
-	// host: DB_HOST,
-	// user: DB_USER,
-	// password: DB_PASS,
-	// database: DB_NAME,
-// });
+sequelize.authenticate().then(() => {
+  console.log('Connection has been established successfully.');
+}).catch((error) => {
+  console.error('Unable to connect to the database: ', error);
+});
 
-// dbConnection.getConnection((err, connection) => {
-//   if (err) {
-//     console.error('Database connection failed:', err);
-//   } else {
-//     console.log('Database connection successful');
-//     connection.release();
-//   }
-// });
-
-// module.exports = dbConnection;
-
-import mysql from 'mysql2/promise';
-
-const dbConnection = async () => {
-  try {
-    const connection = await mysql.createConnection({
-		host: DB_HOST,
-		user: DB_USER,
-		password: DB_PASS,
-		database: DB_NAME,
-    });
-
-    console.log('Database connection successful');
-    return connection;
-  } catch (error: any) {
-    console.error('Database connection failed:', error.message);
-    throw error;
-  }
-};
-
-export default dbConnection;
-
+export default sequelize;
