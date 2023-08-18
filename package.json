@@ -1,0 +1,36 @@
+{
+  "name": "simple-blog-project",
+  "version": "1.0.0",
+  "description": "Test for Medical Departure to create a simple blog project that includes a sign-up and sign-in functionality. The project highlights my skills in SQL, Node.js, Express, TypeScript, MySQL, HTTP, RESTful, Git, Swagger, and AWS Serverless",
+  "main": "src/app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.ts",
+    "dev": "nodemon ./src/app.ts"
+  },
+  "author": "Oghenekaro Brume Israel",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mysql2": "^3.6.0",
+    "serverless": "^3.34.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/hapi__joi": "^17.1.9",
+    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/swagger-ui-express": "^4.1.3"
+  }
+}
