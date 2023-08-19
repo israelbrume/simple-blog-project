@@ -2,8 +2,8 @@ import { Sequelize } from 'sequelize';
 
 const { DB_USER, DB_PASS, DB_NAME, DB_HOST } = process.env;
 
-const sequelize = new Sequelize( 'sbproject', 'admin', 'Pa$$word',{
-  host: 'sbproject.c1tio7oqkzjw.us-east-2.rds.amazonaws.com',
+const sequelize = new Sequelize(DB_NAME || '', DB_USER || '', DB_PASS || '' ,{
+  host: DB_HOST || '',
   dialect: 'mysql',
 });
 
