@@ -1,8 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const indexRoutes = require('./routes/index');
-const { swaggerDocs, swaggerUi } = require('./swagger/swagger');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import indexRoutes from './routes/index';
+import { swaggerDocs, swaggerUi } from './swagger/swagger';
 
 
 

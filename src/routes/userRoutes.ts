@@ -1,8 +1,7 @@
-// const { Router } = require('express');
-const express3 = require('express');
-const userRouter = express3.Router();
-const { register, login} = require('../controllers/UserController');
+import express from 'express';
+import { register, login } from '../controllers/UserController';
 
+const userRouter = express.Router();
 /**
  * @swagger
  * /users/register:
@@ -68,4 +67,4 @@ userRouter.post('/register', register);
  */
 userRouter.post('/login', login);
 
-module.exports = userRouter;
+export default userRouter;

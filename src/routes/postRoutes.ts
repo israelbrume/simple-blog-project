@@ -1,14 +1,36 @@
-import { authMiddleware } from "../middleware/auth";
+import express from 'express';
+import { authMiddleware } from '../middleware/auth';
+import { newPost, editPost, deletePost, getAll, getPostsByUserId } from '../controllers/PostController';
 
-const express2 = require('express');
-const postRouter = express2.Router();
-const { newPost, editPost, deletePost, getAll, getPostsByUserId } = require('../controllers/PostController');
-
+const postRouter = express.Router();
 /**
  * @swagger
- * tags:
- *   name: Posts
- *   description: API endpoints for managing posts
+ * components:
+ *   schemas:
+ *     Post:
+ *       type: object
+ *       required:
+ *         - title
+ *         - content
+ *         - UserId
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the Post
+ *         title:
+ *           type: string
+ *           description: The title of the Post
+ *         content:
+ *           type: string
+ *           description: The Post content
+ *         UserId:
+ *           type: integer
+ *           description: ID of the user who made the Post
+ *         createdAt:
+ *           type: string
+ *           format: date
+ *           description: The date the post was added
+ *     
  */
 
 /**
@@ -131,4 +153,4 @@ postRouter.put('/:id', authMiddleware, editPost);
  */
 postRouter.delete('/:postId', authMiddleware, deletePost);
 
-module.exports = postRouter;
+export default postRouter;
